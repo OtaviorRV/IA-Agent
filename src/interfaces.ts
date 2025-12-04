@@ -4,3 +4,5 @@ export type ActionHitory = {
   output: string;
   timestamp: Date;
 };
+
+export type AgentActionType = "resume" | "rewrite" | "unknown";
