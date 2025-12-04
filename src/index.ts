@@ -1,25 +1,25 @@
 import "dotenv/config";
 import OpenAI from "openai";
 import { ask } from "./ask";
-import { MODEL_CHAT } from "./constants";
 
-const client = new OpenAI({
+import { reescreverMensagem, resumirTexto } from "./actions";
+
+export const clientOpenAi = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
 const main = async () => {
-  // função utilitária para perguntar algo no terminal
-  const text = await ask("Cole o texto que você quer resumir:\n");
+  const option = await ask(
+    "O que você quer fazer?\n1) Resumir texto\n2) Reescrever mensagem\n> "
+  );
 
-  const response = await client.responses.create({
-    model: MODEL_CHAT,
-    instructions:
-      "Você é um assistente que resume textos em português em no máximo 3 bullet points.",
-    input: text,
-  });
-
-  console.log("\nResumo:\n");
-  console.log(response.output_text);
+  if (option === "1") {
+    await resumirTexto();
+  } else if (option === "2") {
+    await reescreverMensagem();
+  } else {
+    console.log("Opção inválida.");
+  }
 };
 
 main().catch(console.error);
