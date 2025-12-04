@@ -1,0 +1,23 @@
+{
+  "name": "ia-agent",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "ts-node src/index.ts",
+    "build": "tsc"
+  },
+  "keywords": [],
+  "author": "Otávio Reis Viana",
+  "license": "ISC",
+  "type": "commonjs",
+  "description": "Modelo de Agent para resumo de texto.",
+  "devDependencies": {
+    "@types/node": "^24.10.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "dotenv": "^17.2.3",
+    "openai": "^6.9.1"
+  }
+}
