@@ -2,7 +2,7 @@ import { clientOpenAi } from ".";
 import { ask } from "./ask";
 import { HISTORIC, MODEL_CHAT } from "./constants";
 
-const resumirTexto = async () => {
+const summarizeText = async () => {
   try {
     const text = await ask("Cole o texto que você quer resumir:\n");
 
@@ -30,7 +30,7 @@ const resumirTexto = async () => {
   }
 };
 
-const reescreverMensagem = async () => {
+const rewriteMessage = async () => {
   try {
     const original = await ask("Cole a mensagem que você quer reescrever:\n");
     const tone = await ask(
@@ -68,4 +68,8 @@ const showHistory = () => {
   });
 };
 
-export { resumirTexto, reescreverMensagem, showHistory };
+export {
+  summarizeText as resumirTexto,
+  rewriteMessage as reescreverMensagem,
+  showHistory,
+};
