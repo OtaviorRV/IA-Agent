@@ -4,9 +4,11 @@ import { ask } from "./ask";
 
 import {
   decideAction,
-  reescreverMensagem,
-  resumirTexto,
+  rewriteMessage,
+  summarizeText,
   showHistory,
+  summarizeTextAutomatic,
+  rewriteMessageAutomatic,
 } from "./actions";
 
 export const clientOpenAi = new OpenAI({
@@ -23,10 +25,10 @@ const main = async () => {
 
     switch (option) {
       case "1":
-        await resumirTexto();
+        await summarizeText();
         break;
       case "2":
-        await reescreverMensagem();
+        await rewriteMessage();
         break;
       case "3":
         console.log("Encerrando...");
@@ -40,8 +42,17 @@ const main = async () => {
           "\nDigite o que você quer fazer (instrução + texto):\n"
         );
         const action = await decideAction(free);
-        console.log("Ação decidida pelo modelo:", action);
+
+        if (action === "resume") {
+          await summarizeTextAutomatic(free);
+        } else if (action === "rewrite") {
+          await rewriteMessageAutomatic(free);
+        } else {
+          console.log("Não sei o que fazer com esse pedido (unknown).");
+        }
+
         break;
+
       default:
         console.log("Opção inválida.");
         break;

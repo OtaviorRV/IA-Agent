@@ -93,9 +93,56 @@ const decideAction = async (userMessage: string): Promise<AgentActionType> => {
   return "unknown";
 };
 
+const summarizeTextAutomatic = async (input: string) => {
+  try {
+    const response = await clientOpenAi.responses.create({
+      model: MODEL_CHAT,
+      instructions:
+        "Você é um assistente que resume textos em português em no máximo 5 linhas de texto corrido.",
+      input: input,
+    });
+
+    console.log("\nResumo:\n");
+    console.log(response.output_text);
+
+    HISTORIC.push({
+      type: "resume",
+      input: input,
+      output: response.output_text || "",
+      timestamp: new Date(),
+    });
+  } catch (error) {
+    console.error("Erro ao resumir texto:", error);
+    console.log(
+      "\nNão consegui resumir o texto agora. Tenta de novo em alguns minutos.\n"
+    );
+  }
+};
+
+const rewriteMessageAutomatic = async (input: string) => {
+  try {
+    const response = await clientOpenAi.responses.create({
+      model: MODEL_CHAT,
+      instructions:
+        "Você reescreve mensagens em português no tom solicitado, mantendo o significado original.",
+      input: input,
+    });
+
+    console.log("\nMensagem reescrita:\n");
+    console.log(response.output_text);
+  } catch (error) {
+    console.error("Erro ao reescrever mensagem:", error);
+    console.log(
+      "\nNão consegui reescrever a mensagem agora. Tenta de novo em alguns minutos.\n"
+    );
+  }
+};
+
 export {
-  summarizeText as resumirTexto,
-  rewriteMessage as reescreverMensagem,
+  summarizeText,
+  rewriteMessage,
   showHistory,
   decideAction,
+  summarizeTextAutomatic,
+  rewriteMessageAutomatic,
 };
