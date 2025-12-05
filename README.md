@@ -1,39 +1,39 @@
 # IA-Agent
 
-Agente de linha de comando em Node/TypeScript para resumir textos e reescrever mensagens em português usando a API de Responses do OpenAI. O histórico fica em memória enquanto a sessão estiver aberta.
+CLI agent in Node/TypeScript to summarize texts and rewrite messages in Portuguese using the OpenAI Responses API. History stays in memory while the session is running.
 
-## Requisitos
-- Node.js 18+ e npm
-- Chave da API da OpenAI na variável `OPENAI_API_KEY`
+## Requirements
+- Node.js 18+ and npm
+- OpenAI API key in the `OPENAI_API_KEY` variable
 
-## Passo a passo
-1. Instale as dependências: `npm install`
-2. Crie um arquivo `.env` na raiz com sua chave:
+## Setup and use
+1. Install dependencies: `npm install`
+2. Create a `.env` file in the project root with your key:
    ```
    OPENAI_API_KEY=sk-...
    ```
-3. Inicie o agente: `npm start`
-4. No menu interativo:
-   - `1`: cole um texto para receber um resumo curto.
-   - `2`: cole uma mensagem e informe o tom desejado (ex.: mais formal, mais direto) para reescrita.
-   - `4`: lista o histórico da sessão (limpo quando o processo encerra).
-   - `5`: modo automático — escreva livremente o que quer (instrução + texto) e o modelo retorna apenas a ação escolhida (`resume`, `rewrite` ou `unknown`).
-   - `3`: sai do loop e encerra o programa.
+3. Start the agent: `npm start`
+4. In the interactive menu:
+   - `1`: paste a text to get a short summary.
+   - `2`: paste a message and provide the desired tone (e.g., more formal, more direct) to rewrite it.
+   - `4`: list the session history (cleared when the process stops).
+   - `5`: automatic mode — type freely what you want (instruction + text) and the model returns only the chosen action (`resume`, `rewrite`, or `unknown`).
+   - `3`: exit the loop and end the program.
 
-## Modo automático (opção 5)
-- Serve como roteador: você digita a instrução em linguagem natural e o modelo devolve somente qual ação pretende executar.
-- Hoje ele imprime a decisão; para executar automaticamente, conecte o resultado (`resume` ou `rewrite`) às funções `summarizeTextAutomatic` ou `rewriteMessageAutomatic` em `src/actions.ts`.
+## Automatic mode (option 5)
+- Works as a router: you type a natural-language instruction and the model returns only the action it intends to run.
+- Currently it only prints the decision; to execute automatically, wire the result (`resume` or `rewrite`) to `summarizeTextAutomatic` or `rewriteMessageAutomatic` in `src/actions.ts`.
 
-## Scripts úteis
-- `npm start`: executa o agente via `ts-node`.
-- `npm run build`: compila os arquivos TypeScript para `dist/`.
+## Useful scripts
+- `npm start`: runs the agent via `ts-node`.
+- `npm run build`: compiles TypeScript files to `dist/`.
 
-## Estrutura rápida
-- `src/index.ts`: inicialização do cliente OpenAI, menu principal e loop de execução.
-- `src/actions.ts`: ações de resumo, reescrita, roteamento automático e exibição de histórico.
-- `src/ask.ts`: utilitário para ler entradas do terminal.
-- `src/constants.ts` e `src/interfaces.ts`: modelos e constantes compartilhadas.
+## Quick structure
+- `src/index.ts`: initializes the OpenAI client, main menu, and execution loop.
+- `src/actions.ts`: summarization, rewrite, automatic routing, and history actions.
+- `src/ask.ts`: terminal input helper.
+- `src/constants.ts` and `src/interfaces.ts`: shared models and constants.
 
-## Dicas
-- Certifique-se de que a chave do OpenAI tem acesso ao modelo `gpt-4o-mini`.
-- Em caso de erro de rede ou limite de uso da API, aguarde alguns minutos e tente novamente.
+## Tips
+- Make sure your OpenAI key has access to the `gpt-4o-mini` model.
+- If you hit network errors or API rate limits, wait a few minutes and try again.
