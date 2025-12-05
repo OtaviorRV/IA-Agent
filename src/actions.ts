@@ -3,7 +3,7 @@ import { ask } from "./ask";
 import { HISTORIC, MODEL_CHAT } from "./constants";
 import { AgentActionType } from "./interfaces";
 
-const summarizeText = async () => {
+async function summarizeText() {
   try {
     const text = await ask("Cole o texto que você quer resumir:\n");
 
@@ -29,9 +29,9 @@ const summarizeText = async () => {
       "\nNão consegui resumir o texto agora. Tenta de novo em alguns minutos.\n"
     );
   }
-};
+}
 
-const rewriteMessage = async () => {
+async function rewriteMessage() {
   try {
     const original = await ask("Cole a mensagem que você quer reescrever:\n");
     const tone = await ask(
@@ -53,9 +53,9 @@ const rewriteMessage = async () => {
       "\nNão consegui reescrever a mensagem agora. Tenta de novo em alguns minutos.\n"
     );
   }
-};
+}
 
-const showHistory = () => {
+async function showHistory() {
   if (HISTORIC.length === 0) {
     console.log("\nNenhuma ação registrada ainda.\n");
     return;
@@ -67,9 +67,9 @@ const showHistory = () => {
     console.log("Input:", item.input.slice(0, 80), "...");
     console.log("Output:", item.output.slice(0, 80), "...\n");
   });
-};
+}
 
-const decideAction = async (userMessage: string): Promise<AgentActionType> => {
+async function decideAction(userMessage: string): Promise<AgentActionType> {
   const response = await clientOpenAi.responses.create({
     model: MODEL_CHAT,
     instructions: `
@@ -91,9 +91,9 @@ const decideAction = async (userMessage: string): Promise<AgentActionType> => {
   }
 
   return "unknown";
-};
+}
 
-const summarizeTextAutomatic = async (input: string) => {
+async function summarizeTextAutomatic(input: string) {
   try {
     const response = await clientOpenAi.responses.create({
       model: MODEL_CHAT,
@@ -117,9 +117,9 @@ const summarizeTextAutomatic = async (input: string) => {
       "\nNão consegui resumir o texto agora. Tenta de novo em alguns minutos.\n"
     );
   }
-};
+}
 
-const rewriteMessageAutomatic = async (input: string) => {
+async function rewriteMessageAutomatic(input: string) {
   try {
     const response = await clientOpenAi.responses.create({
       model: MODEL_CHAT,
@@ -136,7 +136,7 @@ const rewriteMessageAutomatic = async (input: string) => {
       "\nNão consegui reescrever a mensagem agora. Tenta de novo em alguns minutos.\n"
     );
   }
-};
+}
 
 export {
   summarizeText,

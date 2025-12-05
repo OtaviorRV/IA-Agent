@@ -1,6 +1,6 @@
 import readline from "readline";
 // função utilitária para perguntar algo no terminal
-export const ask = (question: string): Promise<string> => {
+export function ask(question: string): Promise<string> {
   const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout,
@@ -12,4 +12,4 @@ export const ask = (question: string): Promise<string> => {
       resolve(answer);
     });
   });
-};
+}
