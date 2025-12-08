@@ -1,6 +1,7 @@
 import { ask } from "../cli/ask";
 import { clientOpenAi } from "../config/openiaClient";
 import { MODEL_CHAT } from "../core/constants";
+import { HISTORIC } from "./historic";
 
 export async function rewriteMessage() {
   try {
@@ -14,6 +15,13 @@ export async function rewriteMessage() {
       instructions:
         "Você reescreve mensagens em português no tom solicitado, mantendo o significado original.",
       input: `Mensagem original:\n${original}\n\nTom desejado: ${tone}\n\nReescreva apenas a nova versão da mensagem.`,
+    });
+
+    HISTORIC.push({
+      type: "rewrite",
+      input: `message:${original}, tone:${tone}`,
+      output: response.output_text || "",
+      timestamp: new Date(),
     });
 
     console.log("\nMensagem reescrita:\n");
@@ -33,6 +41,13 @@ export async function rewriteMessageAutomatic(input: string) {
       instructions:
         "Você reescreve mensagens em português no tom solicitado, mantendo o significado original.",
       input: input,
+    });
+
+    HISTORIC.push({
+      type: "rewrite",
+      input: input,
+      output: response.output_text || "",
+      timestamp: new Date(),
     });
 
     console.log("\nMensagem reescrita:\n");

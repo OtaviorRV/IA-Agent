@@ -11,6 +11,8 @@ const {
   showHistory,
   summarizeText,
   summarizeTextAutomatic,
+  translateTextAutomatic,
+  translateText,
 } = Actions;
 
 const main = async () => {
@@ -18,7 +20,7 @@ const main = async () => {
 
   while (doLoop) {
     const option = await ask(
-      "O que você quer fazer?\n1) Resumir texto\n2) Reescrever mensagem\n3) Sair\n4) Ver Histórico\n5) Modo automático (texto livre)\n> "
+      "O que você quer fazer?\n1) Resumir texto\n2) Reescrever mensagem\n3) Sair\n4) Ver Histórico\n5) Traduzir Texto\n6) Modo automático (texto livre)\n> "
     );
 
     switch (option) {
@@ -36,6 +38,9 @@ const main = async () => {
         showHistory();
         break;
       case "5":
+        await translateText();
+        break;
+      case "6":
         const free = await ask(
           "\nDigite o que você quer fazer (instrução + texto):\n"
         );
@@ -45,6 +50,8 @@ const main = async () => {
           await summarizeTextAutomatic(free);
         } else if (action === "rewrite") {
           await rewriteMessageAutomatic(free);
+        } else if (action === "translate") {
+          await translateTextAutomatic(free);
         } else {
           console.log("Não sei o que fazer com esse pedido (unknown).");
         }

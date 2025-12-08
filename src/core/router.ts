@@ -12,6 +12,7 @@ export async function decideAction(
       Leia a mensagem do usuário e devolva APENAS uma das opções:
       - "resume"  -> se o usuário quer que você RESUMA um texto.
       - "rewrite" -> se o usuário quer que você REESCREVA um texto em algum tom.
+      - "translate" -> se o usuario quer que você TRADUZA um texto em algum outro indioma. 
       - "unknown" -> se não for nenhum dos dois.
 
       Responda SOMENTE com uma dessas três palavras, sem explicação extra.
@@ -21,7 +22,12 @@ export async function decideAction(
 
   const raw = (response.output_text || "").trim().toLowerCase();
 
-  if (raw === "resume" || raw === "rewrite" || raw === "unknown") {
+  if (
+    raw === "resume" ||
+    raw === "rewrite" ||
+    raw === "translate" ||
+    raw === "unknown"
+  ) {
     return raw;
   }
 
