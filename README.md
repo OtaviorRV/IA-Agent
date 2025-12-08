@@ -1,4 +1,4 @@
-# IA-Agent
+# CLI-Agent
 
 CLI in Node/TypeScript to summarize, rewrite, and translate texts in Portuguese using the OpenAI Responses API. History lives in memory for the current session.
 
