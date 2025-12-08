@@ -1,19 +1,17 @@
 import "dotenv/config";
-import OpenAI from "openai";
-import { ask } from "./ask";
 
-import {
-  decideAction,
+import { ask } from "./cli/ask";
+
+import * as Actions from "./actions";
+import { decideAction } from "./core/router";
+
+const {
   rewriteMessage,
-  summarizeText,
-  showHistory,
-  summarizeTextAutomatic,
   rewriteMessageAutomatic,
-} from "./actions";
-
-export const clientOpenAi = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+  showHistory,
+  summarizeText,
+  summarizeTextAutomatic,
+} = Actions;
 
 const main = async () => {
   let doLoop = true;

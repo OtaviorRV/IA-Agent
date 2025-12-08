@@ -1,39 +1,36 @@
 # IA-Agent
 
-CLI agent in Node/TypeScript to summarize texts and rewrite messages in Portuguese using the OpenAI Responses API. History stays in memory while the session is running.
+CLI in Node/TypeScript to summarize texts and rewrite messages in Portuguese using the OpenAI Responses API. History lives in memory for the current session.
 
 ## Requirements
 - Node.js 18+ and npm
-- OpenAI API key in the `OPENAI_API_KEY` variable
+- `OPENAI_API_KEY` set in the environment (can be in `.env`)
 
-## Setup and use
-1. Install dependencies: `npm install`
-2. Create a `.env` file in the project root with your key:
+## Install and run
+1) `npm install`
+2) Create a `.env` at the project root with:
    ```
    OPENAI_API_KEY=sk-...
    ```
-3. Start the agent: `npm start`
-4. In the interactive menu:
-   - `1`: paste a text to get a short summary.
-   - `2`: paste a message and provide the desired tone (e.g., more formal, more direct) to rewrite it.
-   - `4`: list the session history (cleared when the process stops).
-   - `5`: automatic mode — type freely what you want (instruction + text) and the model returns only the chosen action (`resume`, `rewrite`, or `unknown`).
-   - `3`: exit the loop and end the program.
+3) `npm start`
+4) Interactive menu:
+   - `1`: paste text to get a short summary.
+   - `2`: paste a message and set the tone (e.g., more formal) to rewrite it.
+   - `4`: list session history (cleared when the process exits).
+   - `5`: automatic mode (LLM router); type free-form instructions and the model returns only `resume`, `rewrite`, or `unknown`.
+   - `3`: exit.
 
-## Automatic mode (option 5)
-- Works as a router: you type a natural-language instruction and the model returns only the action it intends to run.
-- Currently it only prints the decision; to execute automatically, wire the result (`resume` or `rewrite`) to `summarizeTextAutomatic` or `rewriteMessageAutomatic` in `src/actions.ts`.
+## Architecture layers
+- CLI input (`src/cli/ask.ts`): reads terminal input with readline.
+- Config (`src/config/openiaClient.ts`): instantiates the OpenAI client with the env var.
+- Core (`src/core`): shared constants (`MODEL_CHAT`), types (`AgentActionType`, `ActionHitory`), and the router (`router.ts`) that asks the model to decide whether the request is a summary or rewrite.
+- Actions (`src/actions`): business use cases. `sumarize.ts` summarizes text, `rewrite.ts` rewrites messages, `historic.ts` stores and shows in-memory history, `translate.ts` is a placeholder for future translation. Each action calls the OpenAI client.
+- Orchestration (`src/index.ts`): main menu loop; invokes actions and, in automatic mode, uses `decideAction` from core to choose `summarizeTextAutomatic` or `rewriteMessageAutomatic`.
 
-## Useful scripts
-- `npm start`: runs the agent via `ts-node`.
-- `npm run build`: compiles TypeScript files to `dist/`.
+## Scripts
+- `npm start`: run the agent via `ts-node`.
+- `npm run build`: compile TypeScript to `dist/`.
 
-## Quick structure
-- `src/index.ts`: initializes the OpenAI client, main menu, and execution loop.
-- `src/actions.ts`: summarization, rewrite, automatic routing, and history actions.
-- `src/ask.ts`: terminal input helper.
-- `src/constants.ts` and `src/interfaces.ts`: shared models and constants.
-
-## Tips
-- Make sure your OpenAI key has access to the `gpt-4o-mini` model.
-- If you hit network errors or API rate limits, wait a few minutes and try again.
+## Notes
+- History is not persisted; to store it on disk or a database, extend `actions/historic.ts`.
+- Ensure the key has access to `gpt-4o-mini`. For network or rate-limit issues, try again after a few minutes.
