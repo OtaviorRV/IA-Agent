@@ -1,4 +1,4 @@
-export type ActionHitory = {
+export type ActionHistoric = {
   type: Extract<AgentActionType, "resume" | "rewrite" | "translate">;
   input: string;
   output: string;

@@ -1,6 +1,6 @@
-import { ActionHitory } from "../core/types";
+import { ActionHistoric } from "../core/types";
 
-export const HISTORIC: ActionHitory[] = [];
+export const HISTORIC: ActionHistoric[] = [];
 
 export async function showHistory() {
   if (HISTORIC.length === 0) {
